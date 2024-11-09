@@ -1,0 +1,22 @@
+/home - <sidebar> 
+----/dashboard/ - <dashboard>
+----/goals - <goals>
+    ----/detail/{id}
+    ----/edit/{id}
+    ----/milestones
+        ----/detail/{id}
+        ----/edit/{id}
+    ----/notes
+        ----/details/{id}
+        ----/edit/{id}
+
+----/reports/
+----/calendar
+
+/profile
+----/edit/{userid}
+
+/login
+
+
+/ - redirect to /home/dashboard
