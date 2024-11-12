@@ -4,6 +4,8 @@ import { LoginForm } from '@/appComponents/LoginForm'
 import { useSelector } from 'react-redux';
 import type { RootState } from '@/appStore/store';
 import { useNavigate } from '@tanstack/react-router';
+
+
 export const Route = createFileRoute('/')({
   component: HomeComponent,
 })
@@ -11,6 +13,11 @@ export const Route = createFileRoute('/')({
 function HomeComponent() {
     const navigate = useNavigate();
     const {isLoggedIn} = useSelector((state:RootState)=>state.auth,(prev, next) => prev === next);
+
+    if(isLoggedIn){
+      navigate({ to: '/home' });
+      return null;
+  }
 
     useEffect(()=>{
         if(isLoggedIn){

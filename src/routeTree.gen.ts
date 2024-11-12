@@ -11,20 +11,27 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as HomeImport } from './routes/home'
 import { Route as IndexImport } from './routes/index'
+import { Route as HomeIndexImport } from './routes/home/index'
+import { Route as HomeGoalsImport } from './routes/home/goals'
 
 // Create/Update Routes
-
-const HomeRoute = HomeImport.update({
-  id: '/home',
-  path: '/home',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HomeIndexRoute = HomeIndexImport.update({
+  id: '/home/',
+  path: '/home/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HomeGoalsRoute = HomeGoalsImport.update({
+  id: '/home/goals',
+  path: '/home/goals',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,11 +46,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/home': {
-      id: '/home'
+    '/home/goals': {
+      id: '/home/goals'
+      path: '/home/goals'
+      fullPath: '/home/goals'
+      preLoaderRoute: typeof HomeGoalsImport
+      parentRoute: typeof HomeIndexImport
+    }
+    '/home/': {
+      id: '/home/'
       path: '/home'
       fullPath: '/home'
-      preLoaderRoute: typeof HomeImport
+      preLoaderRoute: typeof HomeIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -53,37 +67,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/home/goals': typeof HomeGoalsRoute
+  '/home': typeof HomeIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/home/goals': typeof HomeGoalsRoute
+  '/home': typeof HomeIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
-  '/home': typeof HomeRoute
+  '/home/goals': typeof HomeGoalsRoute
+  '/home/': typeof HomeIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/home'
+  fullPaths: '/' | '/home/goals' | '/home'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/home'
-  id: '__root__' | '/' | '/home'
+  to: '/' | '/home/goals' | '/home'
+  id: '__root__' | '/' | '/home/goals' | '/home/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  HomeRoute: typeof HomeRoute
+  HomeGoalsRoute: typeof HomeGoalsRoute
+  HomeIndexRoute: typeof HomeIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  HomeRoute: HomeRoute,
+  HomeGoalsRoute: HomeGoalsRoute,
+  HomeIndexRoute: HomeIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -97,14 +116,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/home"
+        "/home/goals",
+        "/home/"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/home": {
-      "filePath": "home.tsx"
+    "/home/goals": {
+      "filePath": "home/goals.tsx"
+    },
+    "/home/": {
+      "filePath": "home/index.tsx"
     }
   }
 }

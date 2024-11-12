@@ -2,6 +2,8 @@ import React from 'react';
 import AppHeader from './AppHeader';
 import { Outlet } from '@tanstack/react-router';
 
+
+
 const RootLayout: React.FC = () => {
   
   return (
@@ -12,7 +14,7 @@ const RootLayout: React.FC = () => {
         <AppHeader />
         
     </div>
-    <div id='main-section' className='flex-grow bg-orange-400'>
+    <div id='main-section' className='flex flex-grow bg-orange-100'>
       <Outlet />
     </div>
       </div>
