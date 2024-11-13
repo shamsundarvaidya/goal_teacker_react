@@ -30,7 +30,7 @@ export const LoginForm: React.FC = () => {
   return (
       <div>
     <div>
-    <form onSubmit={handleSubmit} className="max-w-sm mx-auto p-4">
+    <form onSubmit={handleSubmit} className="w-full mx-auto p-4">
       
       <div className="mb-4">
         <label className="block text-xl mb-2">Username</label>

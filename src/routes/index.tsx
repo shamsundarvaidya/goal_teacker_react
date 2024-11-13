@@ -28,8 +28,8 @@ function HomeComponent() {
 
   return (
     <div className="bg-gradient-to-r from-slate-900 to-slate-500 text-white p-8 h-full">
-        <div className='flex flex-row  mt-10 ml-5 w-full'>
-            <div id="login" className='w-1/2'>
+        <div className='flex flex-row justify-end '>
+            <div className='w-1/4 mt-10'>
                 <LoginForm />
             </div>
         </div>

@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignupImport } from './routes/signup'
 import { Route as HomeImport } from './routes/home'
 import { Route as IndexImport } from './routes/index'
 import { Route as HomeIndexImport } from './routes/home/index'
@@ -20,6 +21,12 @@ import { Route as HomeGoalsImport } from './routes/home/goals'
 import { Route as HomeCalendarImport } from './routes/home/calendar'
 
 // Create/Update Routes
+
+const SignupRoute = SignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const HomeRoute = HomeImport.update({
   id: '/home',
@@ -79,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeImport
+      parentRoute: typeof rootRoute
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
     '/home/calendar': {
@@ -142,6 +156,7 @@ const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/home': typeof HomeRouteWithChildren
+  '/signup': typeof SignupRoute
   '/home/calendar': typeof HomeCalendarRoute
   '/home/goals': typeof HomeGoalsRoute
   '/home/reports': typeof HomeReportsRoute
@@ -151,6 +166,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/signup': typeof SignupRoute
   '/home/calendar': typeof HomeCalendarRoute
   '/home/goals': typeof HomeGoalsRoute
   '/home/reports': typeof HomeReportsRoute
@@ -162,6 +178,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/home': typeof HomeRouteWithChildren
+  '/signup': typeof SignupRoute
   '/home/calendar': typeof HomeCalendarRoute
   '/home/goals': typeof HomeGoalsRoute
   '/home/reports': typeof HomeReportsRoute
@@ -174,6 +191,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/home'
+    | '/signup'
     | '/home/calendar'
     | '/home/goals'
     | '/home/reports'
@@ -182,6 +200,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/signup'
     | '/home/calendar'
     | '/home/goals'
     | '/home/reports'
@@ -191,6 +210,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/home'
+    | '/signup'
     | '/home/calendar'
     | '/home/goals'
     | '/home/reports'
@@ -202,11 +222,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HomeRoute: typeof HomeRouteWithChildren
+  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HomeRoute: HomeRouteWithChildren,
+  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -220,7 +242,8 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/home"
+        "/home",
+        "/signup"
       ]
     },
     "/": {
@@ -235,6 +258,9 @@ export const routeTree = rootRoute
         "/home/settings",
         "/home/"
       ]
+    },
+    "/signup": {
+      "filePath": "signup.tsx"
     },
     "/home/calendar": {
       "filePath": "home/calendar.tsx",
