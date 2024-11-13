@@ -10,13 +10,15 @@ const RootLayout: React.FC = () => {
     <div className='flex flex-col h-screen'>
 
     
-    <div className='bg-slate-800'>
+    <div className='bg-slate-800 pb-1'>
         <AppHeader />
         
     </div>
-    <div id='main-section' className='flex flex-grow bg-orange-100'>
+
+    <div id='main-section' className='flex-grow'>
       <Outlet />
     </div>
+
       </div>
   );
 };
