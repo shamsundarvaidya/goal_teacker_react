@@ -13,7 +13,7 @@ const NavButton = ({label,link, collapsed,children}) => {
   const navigate = useNavigate();
 
   return(
-    <button className={`${button_style} ${active ?' bg-white text-red-800 ' : '' }`}
+    <button className={`${button_style} ${active ?' bg-white text-black text-red-800 ' : '' }`}
 
                            onClick={() => navigate({ to: link })}>
           
