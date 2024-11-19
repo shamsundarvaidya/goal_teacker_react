@@ -6,14 +6,14 @@ import {useNavigate, useMatchRoute  } from '@tanstack/react-router'
 
 const NavButton = ({label,link, collapsed,children}) => {
 
-  const button_style = "flex items-center gap-2 bg-transparent rounded py-2 px-4 text-white transition duration-300 \
+  const button_style = "flex items-center gap-2 bg-transparent rounded py-2 px-4  transition duration-300 \
   ease-in-out transform hover:bg-slate-200 hover:text-black focus:outline-none"
   const matchRoute = useMatchRoute()
   const active = matchRoute({ to: link })
   const navigate = useNavigate();
 
   return(
-    <button className={`${button_style} ${active ?' bg-white text-black text-red-800 ' : '' }`}
+    <button className={`${button_style} ${active ?' bg-white text-black ' : 'text-white' }`}
 
                            onClick={() => navigate({ to: link })}>
           
@@ -38,7 +38,7 @@ const Sidebar: React.FC = () => {
 
     return(
         <div
-      className={`flex flex-col h-full  p-2 bg-gray-800 text-white transition-all duration-300 ${
+      className={`flex flex-col p-2 bg-slate-600 text-white transition-all duration-300 ${
         isCollapsed ? 'w-16 items-center' : 'w-40'
       }`}
     >

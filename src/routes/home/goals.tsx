@@ -1,19 +1,22 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import {useLoaderData} from '@tanstack/react-router'
+import {useLoaderData, ErrorComponent  } from '@tanstack/react-router'
+import GoalItem from '@/appComponents/GoalItem'
+import type { Goal} from '@/types/goal_types'
+import { logout } from '@/appStore/loginSlice'
+import { useDispatch } from 'react-redux'; //
+import { AppDispatch } from '@/appStore/store'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
-interface Goal {
-  _id: string
-  title: string
-  description: string
-  category: string
-  status: string
-  progress: number
-  start_date: string
-  end_date: string
-  milestones: any[]
-  reminders: any[]
-  notes: any[]
+class HttpError extends Error {
+  status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+    this.name = "HttpError";
+  }
 }
 
 // Define the loader function for the route to fetch the goals
@@ -23,7 +26,15 @@ const goalFetch = async () => {
       method: 'GET',
       credentials: 'include',  // Ensure cookies (JWT) are sent with the request
     })
+
+    if (response.status === 401) {
+      // Dispatch the logout action
+     
+      throw new HttpError(401, "401 ERROR");
+    }
+
     if (!response.ok) {
+      console.log(response)
       throw new Error('Failed to fetch goals')
     }
     const data:Goal[] = await response.json()
@@ -36,15 +47,36 @@ const goalFetch = async () => {
 
 export const Route = createFileRoute('/home/goals')({
   component: RouteComponent,
-  loader: () => goalFetch()
+  loader: () => goalFetch(),
+  errorComponent: Unauthorized
 })
 
 
+function Unauthorized({error}){
+  const dispatch  = useDispatch<AppDispatch>();
+  if(error.message == "401 ERROR"){
+    dispatch(logout());
 
-function RouteComponent({ loaderData }: { loaderData: { goals: Goal[] } }) {
+    return(
+      <div>
+        {error.message}
+      </div>);
 
-  console.log(loaderData)
+  }
+
+
+  // Fallback to the default ErrorComponent
+  return <ErrorComponent error={error} />
+
+}
+
+
+function RouteComponent() {
+  
+  
   const loaderdata = useLoaderData({ from: '/home/goals' })
+
+
 
   if(!loaderdata){
     return <div>Loading...</div>
@@ -52,25 +84,32 @@ function RouteComponent({ loaderData }: { loaderData: { goals: Goal[] } }) {
   const goals = loaderdata.goals
 
   return (
-      <div>
-        <h1>Goals</h1>
+      <div className='p-3 w-full'>
+        <div id='header' className='flex flex-row justify-between pb-2 px-4 mb-5 border-b-2'>
+          <div className=''>
+            <span className='text-xl text-blue-500'>GOALS</span>
+          </div>
+          
+          
+
+          <div id="header-action" className='flex flex-row gap-2'>
+          <div>
+            <Input placeholder='search by tag' name='search_term'></Input>
+          </div>
+            <Button>Filter</Button>
+            <Button className=''>+New Goal</Button>
+          </div>
+
+        </div>
+
         {goals.length === 0 ? (
             <p>No goals available</p>
         ) : (
-            <ul>
+            <div>
               {goals.map((goal) => (
-                  <li key={goal._id}>
-                    <h2>{goal.title}</h2>
-                    <p>{goal.description}</p>
-                    <p>Category: {goal.category}</p>
-                    <p>Status: {goal.status}</p>
-                    <p>Progress: {goal.progress}%</p>
-                    <p>Start Date: {new Date(goal.start_date).toLocaleDateString()}</p>
-                    <p>End Date: {new Date(goal.end_date).toLocaleDateString()}</p>
-                    {/* Display milestones, reminders, and notes if needed */}
-                  </li>
+                  <GoalItem key={goal._id} data={goal} />
               ))}
-            </ul>
+            </div>
         )}
       </div>
   )

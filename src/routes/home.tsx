@@ -23,7 +23,7 @@ function RouteComponent() {
  
 
   return (
-    <div className="flex flex-row bg-amber-300 h-full">
+    <div className="flex flex-row h-full">
         <Sidebar />
         <Outlet />
     </div>
