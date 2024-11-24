@@ -12,13 +12,16 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SignupImport } from './routes/signup'
+import { Route as SettingsImport } from './routes/settings'
+import { Route as ReportsImport } from './routes/reports'
+import { Route as LoginImport } from './routes/login'
 import { Route as HomeImport } from './routes/home'
+import { Route as GoalsImport } from './routes/goals'
+import { Route as CalendarImport } from './routes/calendar'
 import { Route as IndexImport } from './routes/index'
 import { Route as HomeIndexImport } from './routes/home/index'
-import { Route as HomeSettingsImport } from './routes/home/settings'
-import { Route as HomeReportsImport } from './routes/home/reports'
-import { Route as HomeGoalsImport } from './routes/home/goals'
-import { Route as HomeCalendarImport } from './routes/home/calendar'
+import { Route as GoalsIndexImport } from './routes/goals/index'
+import { Route as GoalsAddGoalImport } from './routes/goals/addGoal'
 
 // Create/Update Routes
 
@@ -28,9 +31,39 @@ const SignupRoute = SignupImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const SettingsRoute = SettingsImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ReportsRoute = ReportsImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const HomeRoute = HomeImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GoalsRoute = GoalsImport.update({
+  id: '/goals',
+  path: '/goals',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CalendarRoute = CalendarImport.update({
+  id: '/calendar',
+  path: '/calendar',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,28 +79,16 @@ const HomeIndexRoute = HomeIndexImport.update({
   getParentRoute: () => HomeRoute,
 } as any)
 
-const HomeSettingsRoute = HomeSettingsImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => HomeRoute,
+const GoalsIndexRoute = GoalsIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => GoalsRoute,
 } as any)
 
-const HomeReportsRoute = HomeReportsImport.update({
-  id: '/reports',
-  path: '/reports',
-  getParentRoute: () => HomeRoute,
-} as any)
-
-const HomeGoalsRoute = HomeGoalsImport.update({
-  id: '/goals',
-  path: '/goals',
-  getParentRoute: () => HomeRoute,
-} as any)
-
-const HomeCalendarRoute = HomeCalendarImport.update({
-  id: '/calendar',
-  path: '/calendar',
-  getParentRoute: () => HomeRoute,
+const GoalsAddGoalRoute = GoalsAddGoalImport.update({
+  id: '/addGoal',
+  path: '/addGoal',
+  getParentRoute: () => GoalsRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -81,11 +102,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarImport
+      parentRoute: typeof rootRoute
+    }
+    '/goals': {
+      id: '/goals'
+      path: '/goals'
+      fullPath: '/goals'
+      preLoaderRoute: typeof GoalsImport
+      parentRoute: typeof rootRoute
+    }
     '/home': {
       id: '/home'
       path: '/home'
       fullPath: '/home'
       preLoaderRoute: typeof HomeImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsImport
+      parentRoute: typeof rootRoute
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsImport
       parentRoute: typeof rootRoute
     }
     '/signup': {
@@ -95,33 +151,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
-    '/home/calendar': {
-      id: '/home/calendar'
-      path: '/calendar'
-      fullPath: '/home/calendar'
-      preLoaderRoute: typeof HomeCalendarImport
-      parentRoute: typeof HomeImport
+    '/goals/addGoal': {
+      id: '/goals/addGoal'
+      path: '/addGoal'
+      fullPath: '/goals/addGoal'
+      preLoaderRoute: typeof GoalsAddGoalImport
+      parentRoute: typeof GoalsImport
     }
-    '/home/goals': {
-      id: '/home/goals'
-      path: '/goals'
-      fullPath: '/home/goals'
-      preLoaderRoute: typeof HomeGoalsImport
-      parentRoute: typeof HomeImport
-    }
-    '/home/reports': {
-      id: '/home/reports'
-      path: '/reports'
-      fullPath: '/home/reports'
-      preLoaderRoute: typeof HomeReportsImport
-      parentRoute: typeof HomeImport
-    }
-    '/home/settings': {
-      id: '/home/settings'
-      path: '/settings'
-      fullPath: '/home/settings'
-      preLoaderRoute: typeof HomeSettingsImport
-      parentRoute: typeof HomeImport
+    '/goals/': {
+      id: '/goals/'
+      path: '/'
+      fullPath: '/goals/'
+      preLoaderRoute: typeof GoalsIndexImport
+      parentRoute: typeof GoalsImport
     }
     '/home/': {
       id: '/home/'
@@ -135,19 +177,23 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
+interface GoalsRouteChildren {
+  GoalsAddGoalRoute: typeof GoalsAddGoalRoute
+  GoalsIndexRoute: typeof GoalsIndexRoute
+}
+
+const GoalsRouteChildren: GoalsRouteChildren = {
+  GoalsAddGoalRoute: GoalsAddGoalRoute,
+  GoalsIndexRoute: GoalsIndexRoute,
+}
+
+const GoalsRouteWithChildren = GoalsRoute._addFileChildren(GoalsRouteChildren)
+
 interface HomeRouteChildren {
-  HomeCalendarRoute: typeof HomeCalendarRoute
-  HomeGoalsRoute: typeof HomeGoalsRoute
-  HomeReportsRoute: typeof HomeReportsRoute
-  HomeSettingsRoute: typeof HomeSettingsRoute
   HomeIndexRoute: typeof HomeIndexRoute
 }
 
 const HomeRouteChildren: HomeRouteChildren = {
-  HomeCalendarRoute: HomeCalendarRoute,
-  HomeGoalsRoute: HomeGoalsRoute,
-  HomeReportsRoute: HomeReportsRoute,
-  HomeSettingsRoute: HomeSettingsRoute,
   HomeIndexRoute: HomeIndexRoute,
 }
 
@@ -155,34 +201,42 @@ const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
+  '/goals': typeof GoalsRouteWithChildren
   '/home': typeof HomeRouteWithChildren
+  '/login': typeof LoginRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
-  '/home/calendar': typeof HomeCalendarRoute
-  '/home/goals': typeof HomeGoalsRoute
-  '/home/reports': typeof HomeReportsRoute
-  '/home/settings': typeof HomeSettingsRoute
+  '/goals/addGoal': typeof GoalsAddGoalRoute
+  '/goals/': typeof GoalsIndexRoute
   '/home/': typeof HomeIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
+  '/login': typeof LoginRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
-  '/home/calendar': typeof HomeCalendarRoute
-  '/home/goals': typeof HomeGoalsRoute
-  '/home/reports': typeof HomeReportsRoute
-  '/home/settings': typeof HomeSettingsRoute
+  '/goals/addGoal': typeof GoalsAddGoalRoute
+  '/goals': typeof GoalsIndexRoute
   '/home': typeof HomeIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/calendar': typeof CalendarRoute
+  '/goals': typeof GoalsRouteWithChildren
   '/home': typeof HomeRouteWithChildren
+  '/login': typeof LoginRoute
+  '/reports': typeof ReportsRoute
+  '/settings': typeof SettingsRoute
   '/signup': typeof SignupRoute
-  '/home/calendar': typeof HomeCalendarRoute
-  '/home/goals': typeof HomeGoalsRoute
-  '/home/reports': typeof HomeReportsRoute
-  '/home/settings': typeof HomeSettingsRoute
+  '/goals/addGoal': typeof GoalsAddGoalRoute
+  '/goals/': typeof GoalsIndexRoute
   '/home/': typeof HomeIndexRoute
 }
 
@@ -190,44 +244,62 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/calendar'
+    | '/goals'
     | '/home'
+    | '/login'
+    | '/reports'
+    | '/settings'
     | '/signup'
-    | '/home/calendar'
-    | '/home/goals'
-    | '/home/reports'
-    | '/home/settings'
+    | '/goals/addGoal'
+    | '/goals/'
     | '/home/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/calendar'
+    | '/login'
+    | '/reports'
+    | '/settings'
     | '/signup'
-    | '/home/calendar'
-    | '/home/goals'
-    | '/home/reports'
-    | '/home/settings'
+    | '/goals/addGoal'
+    | '/goals'
     | '/home'
   id:
     | '__root__'
     | '/'
+    | '/calendar'
+    | '/goals'
     | '/home'
+    | '/login'
+    | '/reports'
+    | '/settings'
     | '/signup'
-    | '/home/calendar'
-    | '/home/goals'
-    | '/home/reports'
-    | '/home/settings'
+    | '/goals/addGoal'
+    | '/goals/'
     | '/home/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CalendarRoute: typeof CalendarRoute
+  GoalsRoute: typeof GoalsRouteWithChildren
   HomeRoute: typeof HomeRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  ReportsRoute: typeof ReportsRoute
+  SettingsRoute: typeof SettingsRoute
   SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CalendarRoute: CalendarRoute,
+  GoalsRoute: GoalsRouteWithChildren,
   HomeRoute: HomeRouteWithChildren,
+  LoginRoute: LoginRoute,
+  ReportsRoute: ReportsRoute,
+  SettingsRoute: SettingsRoute,
   SignupRoute: SignupRoute,
 }
 
@@ -242,41 +314,53 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/calendar",
+        "/goals",
         "/home",
+        "/login",
+        "/reports",
+        "/settings",
         "/signup"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
+    "/calendar": {
+      "filePath": "calendar.tsx"
+    },
+    "/goals": {
+      "filePath": "goals.tsx",
+      "children": [
+        "/goals/addGoal",
+        "/goals/"
+      ]
+    },
     "/home": {
       "filePath": "home.tsx",
       "children": [
-        "/home/calendar",
-        "/home/goals",
-        "/home/reports",
-        "/home/settings",
         "/home/"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/reports": {
+      "filePath": "reports.tsx"
+    },
+    "/settings": {
+      "filePath": "settings.tsx"
     },
     "/signup": {
       "filePath": "signup.tsx"
     },
-    "/home/calendar": {
-      "filePath": "home/calendar.tsx",
-      "parent": "/home"
+    "/goals/addGoal": {
+      "filePath": "goals/addGoal.tsx",
+      "parent": "/goals"
     },
-    "/home/goals": {
-      "filePath": "home/goals.tsx",
-      "parent": "/home"
-    },
-    "/home/reports": {
-      "filePath": "home/reports.tsx",
-      "parent": "/home"
-    },
-    "/home/settings": {
-      "filePath": "home/settings.tsx",
-      "parent": "/home"
+    "/goals/": {
+      "filePath": "goals/index.tsx",
+      "parent": "/goals"
     },
     "/home/": {
       "filePath": "home/index.tsx",

@@ -1,5 +1,5 @@
 import  { StrictMode } from 'react'
-import ReactDOM from 'react-dom/client'
+import {createRoot } from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { Provider } from 'react-redux';
 import store from './appStore/store'
@@ -21,7 +21,7 @@ declare module '@tanstack/react-router' {
 // Render the app
 const rootElement = document.getElementById('root')!
 if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement)
+  const root = createRoot(rootElement)
   root.render(
     <StrictMode>
       <Provider store={store}>

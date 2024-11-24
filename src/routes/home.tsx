@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import type { RootState } from '@/appStore/store'
 import { useNavigate } from '@tanstack/react-router'
 import { createFileRoute } from '@tanstack/react-router'
-import Sidebar from '@/appComponents/AppSidebar'
+
 import { Outlet } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/home')({
@@ -24,7 +24,6 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-row h-full">
-        <Sidebar />
         <Outlet />
     </div>
   )

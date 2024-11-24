@@ -16,7 +16,7 @@ const UserSection: React.FC = ()=>{
     const buttonHandler = () => {
 
         dispatch(logout())
-        navigate({to: '/'})
+
 
     }
 

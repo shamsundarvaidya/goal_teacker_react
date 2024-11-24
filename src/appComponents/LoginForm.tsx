@@ -28,6 +28,9 @@ export const LoginForm: React.FC = () => {
   console.log(error)
 
   return (
+      <div className="bg-gradient-to-r from-slate-900 to-slate-500 text-white p-8 h-full w-full">
+        <div className='flex flex-row justify-end '>
+          <div className='w-1/4 mt-10'>
       <div>
     <div>
     <form onSubmit={handleSubmit} className="w-full mx-auto p-4">
@@ -71,6 +74,10 @@ export const LoginForm: React.FC = () => {
         </div>
     )}
     </div>
+          </div>
+        </div>
+
+      </div>
   );
 }
 

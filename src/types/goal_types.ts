@@ -7,7 +7,13 @@ export interface Goal {
     progress: number
     start_date: string
     end_date: string
-    milestones: any[]
-    reminders: any[]
-    notes: any[]
+    milestones: string[]
+    reminders: string[]
+    notes: Note[]
+  }
+
+  export interface Note {
+      id: string; // Optional unique identifier
+      note_date: string; // ISO 8601 string for the date
+      content: string; // Content of the note
   }

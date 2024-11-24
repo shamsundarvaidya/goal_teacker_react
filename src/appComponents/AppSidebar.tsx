@@ -9,7 +9,9 @@ const NavButton = ({label,link, collapsed,children}) => {
   const button_style = "flex items-center gap-2 bg-transparent rounded py-2 px-4  transition duration-300 \
   ease-in-out transform hover:bg-slate-200 hover:text-black focus:outline-none"
   const matchRoute = useMatchRoute()
-  const active = matchRoute({ to: link })
+
+    const active = matchRoute({ to: link, fuzzy:true })
+
   const navigate = useNavigate();
 
   return(
@@ -53,10 +55,10 @@ const Sidebar: React.FC = () => {
       <nav className={`flex flex-col  gap-4 ${isCollapsed ? 'items-center' : ''}`}>
 
         <NavButton label='Home' collapsed = {isCollapsed} link="/home"><FaHome className="text-xl" /></NavButton>
-        <NavButton label='Goals' collapsed = {isCollapsed} link="/home/goals"><FaBullseye className="text-xl" /></NavButton>
-        <NavButton label='Reports' collapsed = {isCollapsed} link="/home/reports" ><FaFileAlt className="text-xl" /></NavButton>
-        <NavButton label='Calendar' collapsed = {isCollapsed} link="/home/calendar" > <FaCalendarAlt className="text-xl" /></NavButton>
-        <NavButton label='Settings' collapsed = {isCollapsed} link="/home/settings" ><FaCog className="text-xl" /></NavButton>
+        <NavButton label='Goals' collapsed = {isCollapsed} link="/goals"><FaBullseye className="text-xl" /></NavButton>
+        <NavButton label='Reports' collapsed = {isCollapsed} link="/reports" ><FaFileAlt className="text-xl" /></NavButton>
+        <NavButton label='Calendar' collapsed = {isCollapsed} link="/calendar" > <FaCalendarAlt className="text-xl" /></NavButton>
+        <NavButton label='Settings' collapsed = {isCollapsed} link="/settings" ><FaCog className="text-xl" /></NavButton>
           
       </nav>
     
