@@ -39,6 +39,7 @@ const GoalList = ({goals}:{goals:Goal[]}) => {
                     {goals.map((goal)=>{
                         let last_note = "None"
                         const notes = goal.notes;
+                        const to_link = `/goals/${goal._id}`
                         if(notes && notes.length > 0){
                             const length = notes.length
                             last_note = notes[length-1].content;
@@ -46,11 +47,17 @@ const GoalList = ({goals}:{goals:Goal[]}) => {
 
                         return (
                             <TableRow key={goal._id}>
-                                <TableCell>{goal.title}</TableCell>
+                                <TableCell>
+                                    <div>
+                                        <div>{goal.title}</div>
+                                        <div className="text-xs text-gray-500">{goal.description}</div>
+                                    </div>
+
+                                </TableCell>
                                 <TableCell>{goal.status}</TableCell>
                                 <TableCell>{goal.end_date}</TableCell>
                                 <TableCell>{last_note}</TableCell>
-                                <TableCell className='text-right'><Link>...</Link></TableCell>
+                                <TableCell className='text-right'><Link className="text-blue-800 underline" to={to_link} >Details</Link></TableCell>
                             </TableRow>
                         );
                     })}

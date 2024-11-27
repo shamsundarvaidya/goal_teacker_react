@@ -6,6 +6,7 @@ import {ErrorComponent} from "@tanstack/react-router";
 
 
 function NoAuthError({error}) {
+    console.log('rendering 401 error component')
     const dispatch = useDispatch<AppDispatch>();
     if (error.message == "401 ERROR") {
         dispatch(logout());

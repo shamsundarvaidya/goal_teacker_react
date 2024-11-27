@@ -44,6 +44,7 @@ export const login = createAsyncThunk<User, { username: string; password: string
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await axios.post<User>("http://localhost:8000/login", credentials); // Replace with actual login endpoint
+
             return response.data;
         } catch (error: any) {
             
@@ -57,6 +58,7 @@ const loginSlice = createSlice({
     initialState,
     reducers: {
         logout: (state: AuthState) => {
+            console.log("logged out");
             state.user = null;
             state.loading = false;
             state.error = null;
@@ -71,6 +73,7 @@ const loginSlice = createSlice({
                 state.error = null;
             })
             .addCase(login.fulfilled, (state, action: PayloadAction<User>) => {
+                console.log("login successfull")
                 state.loading = false;
                 state.isLoggedIn = true;
                 state.user = action.payload;
