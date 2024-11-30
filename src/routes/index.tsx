@@ -15,7 +15,11 @@ export const Route = createFileRoute('/')({
 function IndexPage() {
     const navigate = useNavigate();
 
-    navigate({ to: '/home' });
+    useEffect(()=>{
+      navigate({ to: '/home' });
+    },[navigate])
+
+    // 
     return(<> </>)
 
 

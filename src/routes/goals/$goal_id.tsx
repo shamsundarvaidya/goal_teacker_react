@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {createFileRoute, useLoaderData, useMatches} from '@tanstack/react-router'
-import {Goal} from "@/types/goal_types.ts";
+
 import {goalFetchbyID} from "@/lib/goalLib.ts";
 import NoAuthError from "@/appComponents/ERROR401.tsx";
 import GoalDisplay from "@/appComponents/GoalDisplay.tsx";

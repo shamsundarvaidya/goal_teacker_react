@@ -10,9 +10,9 @@ import {LoginForm} from "@/appComponents/LoginForm.tsx";
 const RootLayout: React.FC = () => {
 
   const navigate = useNavigate();
-  const {isLoggedIn} = useSelector((state:RootState)=>state.auth,(prev, next) => prev === next);
+  const {isLoggedIn} = useSelector((state:RootState)=>state.auth);
 
-
+  console.log("Root layout login state:", isLoggedIn);
 
   
   return (

@@ -1,8 +1,9 @@
 import type {Goal} from "@/types/goal_types.ts";
 
 export const goalFetch = async () => {
+    console.log("goalFetch called");
     try {
-        console.log("goalFetch called");
+        
         const response = await fetch('http://localhost:8000/goals/read-goals/', {
             method: 'GET',
             credentials: 'include', // Ensure cookies (JWT) are sent with the request
@@ -23,7 +24,7 @@ export const goalFetch = async () => {
         return { goals: data }
     } catch (error: Error) {
         console.log("error caught",error)
-        throw new Error(error.message)
+        // throw new Error(error.message)
     }
 }
 

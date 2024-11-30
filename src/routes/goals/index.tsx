@@ -15,6 +15,7 @@ export const Route = createFileRoute('/goals/')({
 })
 
 function RouteComponent() {
+  console.log("rendering goal index");
   const data = useLoaderData({ from: Route.id })
 
   if (!data) {
