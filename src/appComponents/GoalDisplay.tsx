@@ -13,6 +13,8 @@ import { milestone_api_response } from '@/types/milstone_types';
 import { useDispatch, UseDispatch } from 'react-redux';
 import { logout } from '@/appStore/loginSlice';
 import { AppDispatch } from '@/appStore/store';
+import NotesDisplay from './NotesDisplay';
+import ReminderDisplay from './ReminderDisplay';
 
 const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
 
@@ -122,56 +124,15 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
 
             <div className="flex flex-row">
                 <div className="w-1/2">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Reminders</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            {goal.reminders.length > 0 ? (
-                                goal.reminders.map((reminder) => (
-                                    <div key={reminder.id} className="mb-4 p-4 bg-gray-100 rounded-md">
-                                        <p className="text-sm">
-                                            <strong>Reminder Date:</strong> {new Date(reminder.reminder_date).toLocaleDateString()}
-                                        </p>
-                                        <p className="text-sm">{reminder.message}</p>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No reminders set.</p>
-                            )}
-                        </CardContent>
-                    </Card>
+                <ReminderDisplay reminders={goal.reminders} />
                 </div>
 
                <div className="w-1/2">
                    {/* Notes Section */}
-                   <Card>
-                       <CardHeader>
-                           <CardTitle>Notes</CardTitle>
-                       </CardHeader>
-                       <CardContent>
-                           {goal.notes.length > 0 ? (
-                               goal.notes.map((note) => (
-                                   <div key={note.id} className="mb-4 p-4 bg-gray-100 rounded-md">
-                                       <p className="text-sm text-gray-600">
-                                           <strong>Note Date:</strong> {new Date(note.note_date).toLocaleDateString()}
-                                       </p>
-                                       <p className="text-sm">{note.content}</p>
-                                   </div>
-                               ))
-                           ) : (
-                               <p>No notes added.</p>
-                           )}
-                       </CardContent>
-                   </Card>
+                   <NotesDisplay notes={goal.notes} />
                </div>
 
             </div>
-
-
-
-
-
 
         </div>
     );
