@@ -22,9 +22,9 @@ export const goalFetch = async () => {
         const data: Goal[] = await response.json()
 
         return { goals: data }
-    } catch (error: Error) {
+    } catch (error: any) {
         console.log("error caught",error)
-        // throw new Error(error.message)
+        throw new Error(error.message)
     }
 }
 
