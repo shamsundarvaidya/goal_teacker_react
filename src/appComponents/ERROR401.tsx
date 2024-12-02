@@ -8,7 +8,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 
 function NoAuthError({error}) {
-    console.log('rendering 401 error component')
+    console.log('rendering 401 error component',error)
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate()
     useEffect(() => {
