@@ -2,24 +2,20 @@ import {FC,useState} from 'react'
 import type { Note } from '@/types/goal_types'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-type proptype = {
-    notes:Note[]
+import AddNote from './notes/AddNote';
+type proptype  = {
+    notes:Note[],
+    goalID:string
 }
 
-const handelAddNotes = (goalID)={
-    
 
-}
-
-const NotesDisplay :FC<proptype> = ({notes})=>{
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+const NotesDisplay :FC<proptype> = ({notes,goalID})=>{
     
     return(
         <Card>
         <CardHeader>
             <CardTitle>Notes</CardTitle>
-            <div className='flex flex-row justify-end'> <Button onClick={()=>handelAddNotes(goal._id)} className=''>Add Milestone</Button></div>
+            <div className='flex flex-row justify-end'><AddNote goalID={goalID} /></div>
         </CardHeader>
         <CardContent>
             {notes.length > 0 ? (

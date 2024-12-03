@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'; // Adjust path
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'; 
 import { Button } from '@/components/ui/button'; // Adjust path
 import { Input } from '@/components/ui/input'; // Adjust path
 import { Textarea } from '@/components/ui/textarea'; // Adjust path

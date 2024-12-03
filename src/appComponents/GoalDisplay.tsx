@@ -129,7 +129,7 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
 
                <div className="w-1/2">
                    {/* Notes Section */}
-                   <NotesDisplay notes={goal.notes} />
+                   <NotesDisplay notes={goal.notes} goalID={goal._id} />
                </div>
 
             </div>
