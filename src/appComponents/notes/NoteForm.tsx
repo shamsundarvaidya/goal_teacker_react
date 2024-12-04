@@ -1,60 +1,113 @@
-import {FC, useRef, useState} from 'react'
-import { Button } from '@/components/ui/button' 
-import { Label } from '@radix-ui/react-label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { FC, useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { addNote } from "@/lib/notesLib";
+import { Textarea } from "@/components/ui/textarea";
+import { notePayload } from '@/types/notes_types';
+import { useRouter } from '@tanstack/react-router';
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogFooter,
-    DialogClose
-  } from "@/components/ui/dialog"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  
+} from "@/components/ui/dialog";
 
 type proptype = {
-    data:string,
-    save: (note: string| undefined) => void,
-    clear: () => void,
-    error:string,
-    message:string,
-}
+  goalID: string;
+};
 
-const NoteForm:FC<proptype> = ({data,error,message,save,clear})=>{
+const NoteForm: FC<proptype> = ({ goalID }) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
+  const router = useRouter();
+  useEffect(()=>{
 
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [open, setOpen] = useState(false);
+    if(!open){
+      setError("");
+      setMsg("");
+    }
 
-    return (
-<Dialog open={open} onOpenChange={setOpen} >
-  <DialogTrigger asChild>
-  <Button variant="outline">Add</Button>
-    </DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>Add a Note</DialogTitle>
-      <DialogDescription>
-        Note important information related to the goal
-      </DialogDescription>
-    </DialogHeader>
-    <Textarea ref={textareaRef} id="description"  defaultValue={data}/>
-    <DialogFooter className="sm:justify-end">
-            <Button type="button" variant="secondary" onClick={()=>{clear();setOpen(false)}}>
-              Close
-            </Button>
+  },[open]);
+
+  const postNote= async ()=>{
+    const note = textareaRef.current?.value;
+    if(!note){
+      setError("Empty Note")
+      setMsg("")
+  }
+  else{  
+      const payload:notePayload = {
+          note_date : new Date().toISOString(),
+          content: note,
           
-          <Button type="button" onClick={()=> save(textareaRef.current?.value)} >
-              Save
-            </Button>
-            
-        </DialogFooter>
-        {error && <span>{error}</span>}
-  </DialogContent>
-</Dialog>
+      }
 
-    );
+      const result = await addNote(payload,goalID);
+      if(result.success){
+        setError("");
+        await router.invalidate({ filter: (match) => (match.id === `/goals/${goalID}`)})
+        setMsg("Succesfully added Note")
+
+      }
+      else{
+        setError("Failed to add Note");
+        setMsg("")
+      }
+  }
 }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline">Add</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add a Note</DialogTitle>
+          <DialogDescription>
+            Note important information related to the goal
+          </DialogDescription>
+        </DialogHeader>
+        <Textarea ref={textareaRef} id="description"  />
+        <DialogFooter>
+          <div className="flex flex-row justify-between w-full">
+          <div>
+          {error && <span className="text-sm text-red-500">{error}</span>}
+          {msg && <span className="text-sm text-green-500">{msg}</span>}
+          </div>
+          <div className="space-x-1">
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              setOpen(false);
+            }}
+          >
+            Close
+          </Button>
+
+          <Button
+            type="button"
+            onClick={postNote}
+          >
+            Save
+          </Button>
+          </div>
+          
+          </div>
+
+          
+          
+        </DialogFooter>
+        
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default NoteForm;

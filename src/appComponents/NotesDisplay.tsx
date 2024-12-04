@@ -2,7 +2,11 @@ import {FC,useState} from 'react'
 import type { Note } from '@/types/goal_types'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import AddNote from './notes/AddNote';
+import { useRouter } from '@tanstack/react-router';
+import NoteForm from './notes/NoteForm';
+import { deleteNote, updateNote } from '@/lib/notesLib';
+import { NoteEditDialog } from './notes/NoteEditDialog';
+
 type proptype  = {
     notes:Note[],
     goalID:string
@@ -10,12 +14,27 @@ type proptype  = {
 
 
 const NotesDisplay :FC<proptype> = ({notes,goalID})=>{
+    const router = useRouter();
+    const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+
+    const deletehandle = async (noteID:string)=>{
+        deleteNote(goalID,noteID)
+        await router.invalidate({ filter: (match) => (match.id === `/goals/${goalID}`)})
+    }
+
+    const handleFormSubmit = async (updatedNote: Note) => {
+        if (selectedNote) {
+          await updateNote(goalID, updatedNote);
+          setSelectedNote(null); // Close the dialog after submission
+          await router.invalidate({ filter: (match) => match.id === `/goals/${goalID}` });
+        }
+      };
     
     return(
         <Card>
         <CardHeader>
             <CardTitle>Notes</CardTitle>
-            <div className='flex flex-row justify-end'><AddNote goalID={goalID} /></div>
+            <div className='flex flex-row justify-end'><NoteForm goalID={goalID} /></div>
         </CardHeader>
         <CardContent>
             {notes.length > 0 ? (
@@ -25,11 +44,21 @@ const NotesDisplay :FC<proptype> = ({notes,goalID})=>{
                             <strong>Note Date:</strong> {new Date(note.note_date).toLocaleDateString()}
                         </p>
                         <p className="text-sm">{note.content}</p>
+                        <div className='flex justify-end gap-2'>
+                        <NoteEditDialog
+                            note={note}
+                            goalID={goalID}
+                        />
+                            <Button onClick={()=>{ deletehandle(note.id)}}>Delete</Button>
+                        </div>
                     </div>
                 ))
             ) : (
                 <p>No notes added.</p>
             )}
+
+
+
         </CardContent>
     </Card>
     );
