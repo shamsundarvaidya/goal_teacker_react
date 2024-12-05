@@ -15,6 +15,7 @@ import { logout } from '@/appStore/loginSlice';
 import { AppDispatch } from '@/appStore/store';
 import NotesDisplay from './NotesDisplay';
 import ReminderDisplay from './ReminderDisplay';
+import DeleteGoal from './goals/DeleteGoal';
 
 const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
 
@@ -67,7 +68,10 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
                 <CardHeader>
                     <CardTitle className="text-2xl">{goal.title}</CardTitle>
                     <CardDescription>{goal.description}</CardDescription>
+                    <div className='flex justify-end'>
+                        <DeleteGoal goal_id={goal._id} />
 
+                    </div>
                 </CardHeader>
                 <CardContent>
                     <div className="flex justify-between items-center">

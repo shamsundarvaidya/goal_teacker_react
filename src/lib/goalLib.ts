@@ -79,3 +79,24 @@ export const goalFetchbyID = async(goalId) =>{
     }
 
 }
+
+
+export const deleteGoal = async (goal_id:string)=>{
+    const url = `http://localhost:8000/goals/delete-goal/${goal_id}`
+
+    try{
+        const response = await fetch(url,{
+            method:'DELETE',
+            credentials: "include",
+        })
+
+        console.log(response)
+
+       return response.ok
+
+    } catch(error:any){
+        console.error('Error deleting milestone:', error);
+        
+            return false; 
+    }
+}
