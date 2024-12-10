@@ -29,7 +29,7 @@ export const goalFetch = async () => {
 }
 
 
-export const addGoal = async(goalTitle,goalDescription) =>{
+export const addGoal = async(goalTitle:string,goalDescription:string) =>{
     try {
         const response = await fetch('http://localhost:8000/goals/add-goal/', {
             method: 'POST',

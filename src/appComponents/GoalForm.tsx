@@ -20,8 +20,11 @@ export default function GoalForm() {
     };
 
 
+
+
     const handleSave = async () => {
-            const success = await addGoal(title, description);
+            if(title.trim() && description.trim()){
+                const success = await addGoal(title.trim(), description.trim());
             if (success) {
                 console.log("Goal added successfully!");
                 setTitle(""); // Reset form fields
@@ -32,13 +35,17 @@ export default function GoalForm() {
                 console.error("Failed to add goal.");
                 setError("Failed to add goal.")
             }
+            }
+            else{
+                setError("Empty Title or Description")
+            }
+            
 
     };
 
     return (
         <>
-
-            <form className="space-y-4 p-4 b shadow-sm w-1/2 mx-auto" onSubmit={handleSave}>
+            <form className="space-y-4 p-4 b shadow-sm w-1/2 mx-auto">
                 <h2 className="text-xl font-semibold text-gray-700">Create New Goal</h2>
 
                 {/* Goal Title Field */}
@@ -69,6 +76,20 @@ export default function GoalForm() {
                     />
                 </div>
 
+                <div>
+                    <label htmlFor="start_date" className="block text-sm font-medium text-gray-700 mb-1">
+                        Start Date
+                    </label>
+                    <Input type="date" />
+                </div>
+
+                <div>
+                    <label htmlFor="end_date" className="block text-sm font-medium text-gray-700 mb-1">
+                        End Date
+                    </label>
+                    <Input type="date" />
+                </div>
+
                 {/* Action Buttons */}
                 <div className="flex justify-end gap-2">
                     <Button type="button" variant="outline" onClick={handleCancel}>
@@ -77,9 +98,11 @@ export default function GoalForm() {
                     <Button type="button" onClick={handleSave}>
                         Save
                     </Button>
+                    
                 </div>
+                {error && <div className="text-red-600">{error}</div>}
             </form>
-            {error && <div>error</div>}
+           
         </>
     );
 }

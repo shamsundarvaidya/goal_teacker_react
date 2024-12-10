@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { FaTrash } from "react-icons/fa";
 import {
   Dialog,
   DialogTrigger,
@@ -38,7 +39,7 @@ const DeleteGoal: FC<proptype> = ({ goal_id }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Delete</Button>
+        <Button variant="ghost" size="icon"><FaTrash color="red"/></Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

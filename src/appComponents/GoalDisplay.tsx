@@ -16,6 +16,8 @@ import { AppDispatch } from '@/appStore/store';
 import NotesDisplay from './NotesDisplay';
 import ReminderDisplay from './ReminderDisplay';
 import DeleteGoal from './goals/DeleteGoal';
+import { GoalEditDialog } from './goals/goalEditDialog';
+
 
 const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
 
@@ -61,6 +63,9 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
             <span className='text-xl'>Nothing to Display</span>
         </div>);
     }
+    const goal_start_date = goal.start_date ? new Date(goal.start_date).toLocaleDateString():"Unknown"
+    const goal_end_date = goal.end_date ? new Date(goal.end_date).toLocaleDateString():"Unknown"
+
     return (
         <div className="p-6 space-y-6 w-full">
             {/* Goal Overview */}
@@ -68,6 +73,7 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
                 <CardHeader>
                     <CardTitle className="text-2xl">{goal.title}</CardTitle>
                     <CardDescription>{goal.description}</CardDescription>
+                    <GoalEditDialog  goal={goal}/>
                     <div className='flex justify-end'>
                         <DeleteGoal goal_id={goal._id} />
 
@@ -79,8 +85,8 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
                             <p><strong>Category:</strong> {goal.category}</p>
                             <div><strong>Status:</strong> <Badge>{goal.status}</Badge></div>
 
-                            <p><strong>Start Date:</strong> {new Date(goal.start_date).toLocaleDateString()}</p>
-                            <p><strong>End Date:</strong> {new Date(goal.end_date).toLocaleDateString()}</p>
+                            <p><strong>Start Date:</strong> {goal_start_date}</p>
+                            <p><strong>End Date:</strong> {goal_end_date}</p>
                         </div>
                         <div className="w-1/2">
                             <Progress value={goal.progress} />

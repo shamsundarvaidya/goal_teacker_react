@@ -6,7 +6,7 @@ import { useRouter } from '@tanstack/react-router';
 import NoteForm from './notes/NoteForm';
 import { deleteNote, updateNote } from '@/lib/notesLib';
 import { NoteEditDialog } from './notes/NoteEditDialog';
-
+import { FaTrash } from "react-icons/fa";
 type proptype  = {
     notes:Note[],
     goalID:string
@@ -49,7 +49,7 @@ const NotesDisplay :FC<proptype> = ({notes,goalID})=>{
                             note={note}
                             goalID={goalID}
                         />
-                            <Button onClick={()=>{ deletehandle(note.id)}}>Delete</Button>
+                            <Button onClick={()=>{ deletehandle(note.id)}}><FaTrash /></Button>
                         </div>
                     </div>
                 ))

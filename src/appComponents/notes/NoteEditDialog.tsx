@@ -5,7 +5,7 @@ import { Note } from "@/types/notes_types";
 import { updateNote } from "@/lib/notesLib";
 import { useRouter } from "@tanstack/react-router";
 import { formatDate } from "@/lib/dateLib";
-
+import {  FaPen } from "react-icons/fa";
 interface NoteEditDialogProps {
   note: Note;
   goalID:string
@@ -58,7 +58,7 @@ export const NoteEditDialog: FC<NoteEditDialogProps> = ({ note, goalID }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Edit</Button>
+        <Button variant="ghost" size="icon"><FaPen color="blue" /></Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
