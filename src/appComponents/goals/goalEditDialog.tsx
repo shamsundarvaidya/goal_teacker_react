@@ -54,7 +54,7 @@ export const GoalEditDialog: FC<GoalEditDialogProps> = ({ goal }) => {
 
   const [open, setOpen] = useState(false);
 
-  const router = useRouter();
+
 
 
   return (
@@ -66,39 +66,7 @@ export const GoalEditDialog: FC<GoalEditDialogProps> = ({ goal }) => {
         <DialogHeader>
           <DialogTitle>Edit Note</DialogTitle>
         </DialogHeader>
-        <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="goal title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-            
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input placeholder="goal description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-            
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+
       </DialogContent>
     </Dialog>
   );
