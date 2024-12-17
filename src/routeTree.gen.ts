@@ -23,6 +23,7 @@ import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as GoalsIndexImport } from './routes/goals/index'
 import { Route as GoalsAddGoalImport } from './routes/goals/addGoal'
 import { Route as GoalsGoalidImport } from './routes/goals/$goal_id'
+import { Route as GoalsEditGoalidImport } from './routes/goals/edit.$goal_id'
 
 // Create/Update Routes
 
@@ -95,6 +96,12 @@ const GoalsAddGoalRoute = GoalsAddGoalImport.update({
 const GoalsGoalidRoute = GoalsGoalidImport.update({
   id: '/$goal_id',
   path: '/$goal_id',
+  getParentRoute: () => GoalsRoute,
+} as any)
+
+const GoalsEditGoalidRoute = GoalsEditGoalidImport.update({
+  id: '/edit/$goal_id',
+  path: '/edit/$goal_id',
   getParentRoute: () => GoalsRoute,
 } as any)
 
@@ -186,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeIndexImport
       parentRoute: typeof HomeImport
     }
+    '/goals/edit/$goal_id': {
+      id: '/goals/edit/$goal_id'
+      path: '/edit/$goal_id'
+      fullPath: '/goals/edit/$goal_id'
+      preLoaderRoute: typeof GoalsEditGoalidImport
+      parentRoute: typeof GoalsImport
+    }
   }
 }
 
@@ -195,12 +209,14 @@ interface GoalsRouteChildren {
   GoalsGoalidRoute: typeof GoalsGoalidRoute
   GoalsAddGoalRoute: typeof GoalsAddGoalRoute
   GoalsIndexRoute: typeof GoalsIndexRoute
+  GoalsEditGoalidRoute: typeof GoalsEditGoalidRoute
 }
 
 const GoalsRouteChildren: GoalsRouteChildren = {
   GoalsGoalidRoute: GoalsGoalidRoute,
   GoalsAddGoalRoute: GoalsAddGoalRoute,
   GoalsIndexRoute: GoalsIndexRoute,
+  GoalsEditGoalidRoute: GoalsEditGoalidRoute,
 }
 
 const GoalsRouteWithChildren = GoalsRoute._addFileChildren(GoalsRouteChildren)
@@ -228,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/goals/addGoal': typeof GoalsAddGoalRoute
   '/goals/': typeof GoalsIndexRoute
   '/home/': typeof HomeIndexRoute
+  '/goals/edit/$goal_id': typeof GoalsEditGoalidRoute
 }
 
 export interface FileRoutesByTo {
@@ -241,6 +258,7 @@ export interface FileRoutesByTo {
   '/goals/addGoal': typeof GoalsAddGoalRoute
   '/goals': typeof GoalsIndexRoute
   '/home': typeof HomeIndexRoute
+  '/goals/edit/$goal_id': typeof GoalsEditGoalidRoute
 }
 
 export interface FileRoutesById {
@@ -257,6 +275,7 @@ export interface FileRoutesById {
   '/goals/addGoal': typeof GoalsAddGoalRoute
   '/goals/': typeof GoalsIndexRoute
   '/home/': typeof HomeIndexRoute
+  '/goals/edit/$goal_id': typeof GoalsEditGoalidRoute
 }
 
 export interface FileRouteTypes {
@@ -274,6 +293,7 @@ export interface FileRouteTypes {
     | '/goals/addGoal'
     | '/goals/'
     | '/home/'
+    | '/goals/edit/$goal_id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -286,6 +306,7 @@ export interface FileRouteTypes {
     | '/goals/addGoal'
     | '/goals'
     | '/home'
+    | '/goals/edit/$goal_id'
   id:
     | '__root__'
     | '/'
@@ -300,6 +321,7 @@ export interface FileRouteTypes {
     | '/goals/addGoal'
     | '/goals/'
     | '/home/'
+    | '/goals/edit/$goal_id'
   fileRoutesById: FileRoutesById
 }
 
@@ -356,7 +378,8 @@ export const routeTree = rootRoute
       "children": [
         "/goals/$goal_id",
         "/goals/addGoal",
-        "/goals/"
+        "/goals/",
+        "/goals/edit/$goal_id"
       ]
     },
     "/home": {
@@ -392,6 +415,10 @@ export const routeTree = rootRoute
     "/home/": {
       "filePath": "home/index.tsx",
       "parent": "/home"
+    },
+    "/goals/edit/$goal_id": {
+      "filePath": "goals/edit.$goal_id.tsx",
+      "parent": "/goals"
     }
   }
 }

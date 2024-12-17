@@ -70,9 +70,9 @@ export const goalFetchbyID = async(goalId) =>{
         }
         const data: Goal[] = await response.json()
 
+        const filtered_data = data.find((goal)=> goal._id === goalId)
 
-
-        return { goal: data.find((goal)=> goal._id === goalId)}
+        return { goal: filtered_data, status: !!filtered_data }
     } catch (error: Error) {
         console.log(error)
         throw new Error(error.message)

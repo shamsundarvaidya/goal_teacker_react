@@ -10,6 +10,7 @@ export interface Goal {
     milestones: Milestone[]
     reminders: Reminder[]
     notes: Note[]
+    tags: string[]
   }
 
   export interface Note {

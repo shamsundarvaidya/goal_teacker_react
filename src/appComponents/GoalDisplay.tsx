@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from '@/components/ui/button';
 import {AddMilestonePopup } from '@/appComponents/MilestoneAdd'
 import { deleteMilestone } from '@/lib/milestoneLib';
-import { useRouter } from '@tanstack/react-router';
+import {Link, useRouter} from '@tanstack/react-router';
 import { milestone_api_response } from '@/types/milstone_types';
 import { useDispatch, UseDispatch } from 'react-redux';
 import { logout } from '@/appStore/loginSlice';
@@ -16,7 +16,7 @@ import { AppDispatch } from '@/appStore/store';
 import NotesDisplay from './NotesDisplay';
 import ReminderDisplay from './ReminderDisplay';
 import DeleteGoal from './goals/DeleteGoal';
-import { GoalEditDialog } from './goals/goalEditDialog';
+
 
 
 const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
@@ -73,7 +73,7 @@ const GoalDisplay: React.FC<{ goal: Goal | undefined }> = ({ goal }) => {
                 <CardHeader>
                     <CardTitle className="text-2xl">{goal.title}</CardTitle>
                     <CardDescription>{goal.description}</CardDescription>
-                    <GoalEditDialog  goal={goal}/>
+                    <Link to={'/goals/edit/$goal_id'} params={{goal_id: goal._id}}>Edit</Link>
                     <div className='flex justify-end'>
                         <DeleteGoal goal_id={goal._id} />
 

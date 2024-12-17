@@ -6,8 +6,6 @@ import type { Goal } from '@/types/goal_types.ts'
 import GoalList from "@/appComponents/GoalList.tsx";
 import {goalFetch} from "@/lib/goalLib.ts";
 
-
-
 export const Route = createFileRoute('/goals/')({
   component: RouteComponent,
   loader: () => goalFetch(),
