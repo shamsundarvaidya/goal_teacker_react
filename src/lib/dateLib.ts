@@ -1,4 +1,5 @@
-export const formatDate = (datetimeString: string): string => {
+export const formatDate = (datetimeString: string| undefined): string => {
+  if(datetimeString){
     const dateObject = new Date(datetimeString);
 
     // Extract the components in local time for proper conversion
@@ -7,4 +8,9 @@ export const formatDate = (datetimeString: string): string => {
     const day = dateObject.getDate().toString().padStart(2, "0");
   
     return `${year}-${month}-${day}`; // Return as YYYY-MM-DD
+  }
+  else{
+    return ""
+  }
+    
   };

@@ -4,7 +4,7 @@ import {goalFetchbyID} from "@/lib/goalLib.ts";
 import {useState} from "react";
 import {Input} from "@/components/ui/input.tsx"
 import {Button} from "@/components/ui/button.tsx";
-
+import  {formatDate} from "@/lib/dateLib"
 export const Route = createFileRoute('/goals/edit/$goal_id')({
   component: RouteComponent,
   loader:  async ({ params:{goal_id} }) => {
@@ -16,94 +16,42 @@ export const Route = createFileRoute('/goals/edit/$goal_id')({
 function RouteComponent() {
   const data = useLoaderData({ from: Route.id });
   console.log(data)
- const [formData,setFormData] = useState(data.goal)
+ const [title,setTitle] = useState(data.goal?.title);
+ const [description, setDescription] = useState(data.goal?.description)
+ const [category,setCategory] = useState(data.goal?.category)
+ const [startdate,setStartdate] = useState(formatDate(data.goal?.start_date))
+ const [enddate,setEndate] = useState(data.goal?.end_date)
+ const [tags,setTags] = useState(data.goal?.tags)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleSave = ()=>{
-    console.log(formData)
-  }
-  if(!data.status){
-    return <div>Not found...</div>
-  }
+console.log(startdate)
 
   return (
 
-      <div>
+     
         <div className="container mx-auto p-8">
           <h1 className="text-2xl font-bold mb-4">Edit Goal</h1>
 
           <div className="flex flex-col space-y-4">
               <div className="flex flex-row gap-4">
                   <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                  <Input id="title" value={formData.title} ></Input>
+                  <Input id="title" value={title} ></Input>
               </div>
-            <Input
-
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Enter title"
-            />
-
-            <Input
-
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                placeholder="Enter description"
-            />
-
-            <Input
-
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                placeholder="Enter category"
-            />
-
-            <Input
-
-                name="status"
-                value={formData.status}
-                onChange={handleChange}
-                placeholder="Enter status"
-            />
-
-            <Input
-                type="date"
-
-                name="start_date"
-                value={formData.start_date}
-                onChange={handleChange}
-            />
-
-            <Input
-                type="date"
-
-                name="end_date"
-                value={formData.end_date}
-                onChange={handleChange}
-            />
-
-            <Input
-
-                name="tags"
-                value={formData.tags.join(', ')}
-                onChange={(e) => setFormData((prevData) => ({
-                  ...prevData,
-                  tags: e.target.value.split(',').map(tag => tag.trim())
-                }))}
-                placeholder="Enter tags separated by commas"
-            />
-          </div>
+              <div className="flex flex-row gap-4">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                  <Input id="description" value={description} ></Input>
+              </div>
+              <div className="flex flex-row gap-4">
+                  <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                  <Input id="category" value={category} ></Input>
+              </div>
+              <div className="flex flex-row gap-4">
+                  <label  htmlFor="startdate" className="block text-sm font-medium text-gray-700 mb-1">startdate</label>
+                  <Input type="date" id="startdate" value={startdate} onChange={(e)=> setStartdate(e.target.value)} ></Input>
+              </div>
 
           <div className="flex justify-end space-x-4 mt-6">
             <Button variant="secondary" >Cancel</Button>
-            <Button variant="primary" onClick={handleSave}>Save</Button>
+            <Button >Save</Button>
           </div>
         </div>
 
