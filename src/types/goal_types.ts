@@ -13,6 +13,17 @@ export interface Goal {
     tags: string[]
   }
 
+  export interface GoalUpdate {
+    _id: string
+    title: string
+    description: string
+    category: string
+    status: string
+    start_date: string
+    end_date: string
+    tags: string[]
+  }
+
   export interface Note {
       id: string; // Optional unique identifier
       note_date: string; // ISO 8601 string for the date
