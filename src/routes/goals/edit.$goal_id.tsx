@@ -1,11 +1,14 @@
 import * as React from 'react'
-import {createFileRoute, useLoaderData} from '@tanstack/react-router'
-import {goalFetchbyID} from "@/lib/goalLib.ts";
+import {createFileRoute, useLoaderData,useNavigate,useRouter} from '@tanstack/react-router'
+import {goalFetchbyID, updateGoal} from "@/lib/goalLib.ts";
 import {useState} from "react";
 import {Input} from "@/components/ui/input.tsx"
 import {Button} from "@/components/ui/button.tsx";
 import  {formatDate} from "@/lib/dateLib"
 import { GoalUpdate } from '@/types/goal_types';
+import {Select, SelectItem, SelectContent, SelectValue, SelectTrigger} from "@/components/ui/select.tsx";
+import {TagsInput} from "@/components/InputTags.tsx";
+
 export const Route = createFileRoute('/goals/edit/$goal_id')({
   component: RouteComponent,
   loader:  async ({ params:{goal_id} }) => {
@@ -24,6 +27,8 @@ function RouteComponent() {
  const [start_date,setStart_date] = useState<string>(formatDate(data.goal?.start_date))
  const [end_date,setEnd_date] = useState<string>(formatDate(data.goal?.end_date))
  const [tags,setTags] = useState<string[]>(data.goal?.tags ? data.goal.tags : [""]);
+ const navigate = useNavigate();
+ const router = useRouter();
 
 const handelsave = ()=>{
   if(data.goal){
@@ -38,53 +43,76 @@ const handelsave = ()=>{
       tags: tags
     }
 
-    console.log(goal_payload)
+    console.log(goal_payload);
+      updateGoal(goal_payload).then((response)=>{
+        if(response){
+
+          alert("Goal Updated");
+
+          navigate({to: `/goals/${data.goal._id}`})
+        }
+        else{
+          alert("Failed to update goal");
+        }
+      })
   }
-  
 }
+
 
   return (
 
      
-        <div className="container mx-auto p-8">
+        <div className="container lg:w-2/3 mx-auto p-8">
           <h1 className="text-2xl font-bold mb-4">Edit Goal</h1>
 
-            <div className="flex flex-col space-y-4">
-                <div className="flex flex-row gap-4">
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+
+                <div className="flex flex-row gap-4 mb-5">
+                    <label htmlFor="title" className="w-36">Title</label>
                     <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)}></Input>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <label htmlFor="description"
-                           className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <div className="flex flex-row gap-4 mb-5">
+                    <label htmlFor="description" className="w-36">Description</label>
                     <Input id="description" value={description}
                            onChange={(e) => setDescription(e.target.value)}></Input>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <div className="flex flex-row gap-4 mb-5">
+                    <label htmlFor="category" className="w-36">Category</label>
                     <Input id="category" value={category} onChange={(e) => setCategory(e.target.value)}></Input>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">status</label>
-                    <Input id="status" value={category} onChange={(e) => setStatus(e.target.value)}></Input>
+                <div className="flex flex-row gap-4 mb-5">
+                    <label className="w-36">status</label>
+                    <Select  value={status} onValueChange={(value) => setStatus(value)}>
+                        <SelectTrigger className="w-[180px]">
+                            <SelectValue placeholder="Theme" />
+                        </SelectTrigger>
+                        <SelectContent>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="in progress">In Progress</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        </SelectContent>
+                    </Select>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <label htmlFor="startdate" className="block text-sm font-medium text-gray-700 mb-1">start
-                        date</label>
+                <div className="flex flex-row gap-4 mb-5">
+                    <label htmlFor="startdate" className="w-36">start date</label>
                     <Input type="date" id="startdate" value={start_date}
                            onChange={(e) => setStart_date(e.target.value)}></Input>
                 </div>
-                <div className="flex flex-row gap-4">
-                    <label htmlFor="enddate" className="block text-sm font-medium text-gray-700 mb-1">end date</label>
+                <div className="flex flex-row gap-4 mb-5">
+                    <label htmlFor="enddate" className="w-36">end date</label>
                     <Input type="date" id="enddate" value={end_date}
                            onChange={(e) => setEnd_date(e.target.value)}></Input>
                 </div>
 
+                <div className="flex flex-row gap-4 mb-5">
+                    <label htmlFor="tags" className="w-36">Tags</label>
+                    <TagsInput value={tags} onChange={setTags} />
+                </div>
+
                 <div className="flex justify-end space-x-4 mt-6">
-                    <Button variant="secondary">Cancel</Button>
+                    <Button onClick={()=> navigate({to:`/goals/${data.goal._id}`})} variant="secondary">Cancel</Button>
                     <Button onClick={handelsave}>Save</Button>
                 </div>
-            </div>
+
 
         </div>
 

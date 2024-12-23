@@ -57,7 +57,7 @@ export const goalFetchbyID = async(goalId) =>{
             method: 'GET',
             credentials: 'include', // Ensure cookies (JWT) are sent with the request
         })
-        console.log("fetched goal",response)
+        console.log("fetched goal")
 
         if (response.status === 401) {
 
@@ -69,6 +69,7 @@ export const goalFetchbyID = async(goalId) =>{
             throw new Error('Failed to fetch goals')
         }
         const data: Goal[] = await response.json()
+        console.log(data)
 
         const filtered_data = data.find((goal)=> goal._id === goalId)
 
@@ -98,5 +99,22 @@ export const deleteGoal = async (goal_id:string)=>{
         console.error('Error deleting milestone:', error);
         
             return false; 
+    }
+}
+
+export const updateGoal = async(goal_payload:GoalUpdate) =>{
+    try {
+        const response = await fetch('http://localhost:8000/goals/update/', {
+            method: 'PUT',
+            credentials: "include",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(goal_payload),
+        });
+
+        return response.ok;
+    } catch (error) {
+        console.error('Error saving goal:', error);
+        return false;
+
     }
 }
